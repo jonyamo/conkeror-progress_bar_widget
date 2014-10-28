@@ -36,11 +36,7 @@ progress_bar_widget.prototype = {
 
     init: function () {
         this.init_time = new Date;
-
-        var percent_str = "#" + Array(this.pad_len).join(" ");
-        var elapsed_str = "0.0s";
-
-        this.view.text = "[{0}] {1}".replace("{0}", percent_str).replace("{1}", elapsed_str);
+        this.view.text = "[Waiting...]  0.0s";
     },
 
     update: function (buffer, request, curSelf, maxSelf, curTotal, maxTotal) {
@@ -63,7 +59,7 @@ progress_bar_widget.prototype = {
             percent_str = percent_str + Array(this.pad_len + 1 - percent_str.length).join(" ");
         var elapsed_str = elapsed + "s";
 
-        this.view.text = "[{0}] {1}".replace("{0}", percent_str).replace("{1}", elapsed_str);
+        this.view.text = "[" + percent_str + "]  " + elapsed_str;
     },
 
     destroy: function () {
