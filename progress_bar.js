@@ -19,11 +19,11 @@
 function progress_bar_widget (window) {
     text_widget.call(this, window);
     this.add_hook("content_buffer_started_loading_hook",
-                  method_caller(this, this.init));
+                  method_caller(this, this.start));
     this.add_hook("content_buffer_progress_change_hook",
                   method_caller(this, this.update));
     this.add_hook("content_buffer_finished_loading_hook",
-                  method_caller(this, this.destroy));
+                  method_caller(this, this.finish));
 }
 
 progress_bar_widget.prototype = {
@@ -31,11 +31,11 @@ progress_bar_widget.prototype = {
     __proto__: text_widget.prototype,
     class_name: "progress-bar-widget",
 
-    init_time: null,
+    start_time: null,
     pad_len: 10,
 
-    init: function () {
-        this.init_time = new Date;
+    start: function () {
+        this.start_time = new Date;
         this.view.text = "[Waiting...]  0.0s";
     },
 
@@ -51,19 +51,19 @@ progress_bar_widget.prototype = {
         ratio = Math.min(Math.max(ratio, 0), 1);
 
         var percent = ratio * 100;
-        var elapsed = new Date - this.init_time;
+        var elapsed = new Date - this.start_time;
         elapsed = isNaN(elapsed) ? "0.0" : (elapsed / 1000).toFixed(1);
 
         var percent_str = "#".repeat(percent.toFixed(0) / 10);
-        if (percent_str < this.pad_len)
+        if (percent_str.length < this.pad_len)
             percent_str = percent_str + Array(this.pad_len + 1 - percent_str.length).join(" ");
         var elapsed_str = elapsed + "s";
 
         this.view.text = "[" + percent_str + "]  " + elapsed_str;
     },
 
-    destroy: function () {
-        this.init_time = null;
+    finish: function () {
+        this.start_time = null;
         this.view.text = "";
     }
 };

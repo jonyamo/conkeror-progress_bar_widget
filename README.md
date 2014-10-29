@@ -8,7 +8,7 @@ When enabled a progress bar widget will be added to Conkeror's mode-line.  It
 will display the current buffer's loading progress as well as the amount of
 time elapsed, like so:
 
-    [#####     ] 0.3s
+    [#####     ]  0.3s
 
 ## Installation
 
